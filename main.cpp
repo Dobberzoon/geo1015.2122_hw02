@@ -129,7 +129,7 @@ int main(int argc, const char * argv[]) {
   // Create the output dataset for writing
 
 
-  // With this for loop I successfully accessed the flow_direction raster to write the z values at (x, y)
+  // With this for loop I access the flow_direction raster to write the z values at (x, y)
   for (int i=0; i<flow_direction.max_x; i++) {
       for (int j=0; j<flow_direction.max_y; j++) {
           //std::cout << j << std::endl;
