@@ -3,6 +3,7 @@
 
 #include "gdal_priv.h"
 #include "cpl_conv.h"
+#include <matplot/matplot.h>
 
 // Storage and access of a raster of a given size
 struct Raster {
@@ -74,7 +75,7 @@ int main(int argc, const char * argv[]) {
   // Open dataset
   GDALDataset  *input_dataset;
   GDALAllRegister();
-  input_dataset = (GDALDataset *)GDALOpen("/Users/ken/Downloads/N25W101.hgt", GA_ReadOnly); // a nice tile I used for testing
+  input_dataset = (GDALDataset *)GDALOpen("/Users/danieldobson/Library/CloudStorage/OneDrive-Personal/GEOMATICS/GEO1015-Y2/geo1015.2021/hw/02/data/N56E105.hgt", GA_ReadOnly); // a nice tile I used for testing
   if (input_dataset == NULL) {
     std::cerr << "Couldn't open file" << std::endl;
     return 1;
@@ -102,7 +103,7 @@ int main(int argc, const char * argv[]) {
   adfMinMax[1] = input_band->GetMaximum(&bGotMax);
   if (!(bGotMin && bGotMax)) GDALComputeRasterMinMax((GDALRasterBandH)input_band, TRUE, adfMinMax);
   std::cout << "Min=" << adfMinMax[0] << " Max=" << adfMinMax[1] << std::endl;
-  
+
   // Read Band 1 line by line
   int nXSize = input_band->GetXSize();
   int nYSize = input_band->GetYSize();
@@ -117,12 +118,67 @@ int main(int argc, const char * argv[]) {
     } input_raster.add_scanline(scanline);
     CPLFree(scanline);
   } std::cout << "Created raster: " << input_raster.max_x << "x" << input_raster.pixels.size()/input_raster.max_y << " = " << input_raster.pixels.size() << std::endl;
-  
+
+
+
   // Flow direction
   Raster flow_direction(input_raster.max_x, input_raster.max_y);
   flow_direction.fill();
   std::priority_queue<RasterCell, std::deque<RasterCell>> cells_to_process_flow;
   // to do
+  // Create the output dataset for writing
+
+
+  // With this for loop I successfully accessed the flow_direction raster to write the z values at (x, y)
+  for (int i=0; i<flow_direction.max_x; i++) {
+      for (int j=0; j<flow_direction.max_y; j++) {
+          //std::cout << j << std::endl;
+          flow_direction.operator()(i, j) = i;
+      }
+  }
+
+  // This loop reads all input_raster values
+  /*
+    for (int i=0; i<input_raster.max_x; i++) {
+        for (int j=0; j<input_raster.max_y; j++) {
+            //std::cout << j << std::endl;
+            std::cout << "this is the value at (" << i << ", " << j << ")" << input_raster.operator()(i, j) << std::endl;
+        }
+    }
+  */
+    // This loop I broke while experimenting, but with added for j blabla you can read each value in the input_raster
+    /*
+    std::vector<int>
+    for (int i=0; i<input_raster.max_x; i++) {
+            std::cout << "this is the value at (" << i << ", " << j << ")" << input_raster.operator()(i, j) << std::endl;
+        }
+    }
+     */
+   // Here I successfully accessed a value at (x, y) to read the z value from the created flow_direction raster
+    std::cout << "this is the value from flow_direction raster at (2, 2): " << flow_direction(2,2) << std::endl;
+
+
+  // Here I will attempt to access the individual columns or rows with indexing
+  /* Metz et al:
+   * LCP algo
+   * 1. determine ultimate outlets and add them to priority list (!) see https://www.geeksforgeeks.org/priority-queue-in-cpp-stl/ for explanation
+   * --> on DEMs the potential outlets are:
+   * - grid cells along the map boundaries
+   * - cells with >= 1 neighboring cells with z = ?
+   * priority is defined by elevation and order of addition, where lowest == highest priority && earlier addition == higher priority
+   * example: if two cells have equal elevation, cell that was added earlier is chosen
+   * OUTPUT: should be in a tree datastructure, which could be one or more trees
+   *
+   * Tips
+    - The initial potential outlets should be all the pixels on the edges of the dataset (ie the top/bottom rows and the leftmost/rightmost columns).
+    - If there are very large large rivers/lakes/seas in the area, you might also want to mark all the cells neighbouring them (usually identifiable as large flat areas) as potential outlets. Hardcoding these (eg using a seeding point inside the area), or modifying the DEM to mark them is fine.
+    - You want to choose specific values that represent the 8 possible flow directions of a pixel (eg 10 for rightwards and 30 for downwards), as well as special values for pixels at the different stages of processing. Choose sensible values to make visualisation intuitive.
+    - We might test your code with other input. Let us know how to run it.
+    - rasterio allows you to clone a dataset’s properties using the profile dictionary, while the same applies to GDAL’s CreateCopy. This is very handy when you want to create a new raster with similar properties as an existing one. That being said, you might want to create a new raster in GDAL instead and only copy some properties of the original (eg CRS).
+    - Make sure that the raster data type you choose is able to fit the values that you want to store in it.
+    - You should have no loops in the flow directions raster. If you do, you’re doing something wrong. --> I think to fill the raster, as in line 123/124
+    - If you’re having performance problems, you may crop your input DEM. However, there will be a penalty if your code can only work with tiny datasets.
+    - The SRTM data is lat-long, but that doesn’t matter for LCP.*/
   
   // Write flow direction
   // to do
