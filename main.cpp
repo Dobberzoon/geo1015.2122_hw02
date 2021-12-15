@@ -132,10 +132,29 @@ int main(int argc, const char * argv[]) {
   // With this for loop I access the flow_direction raster to write the z values at (x, y)
   for (int i=0; i<flow_direction.max_x; i++) {
       for (int j=0; j<flow_direction.max_y; j++) {
-          //std::cout << j << std::endl;
-          flow_direction.operator()(i, j) = i;
+          int elevation = i*10;
+          int insertion_order = j * -1;
+          int x = i;
+          int z = j;
+          //RasterCell rc(x, y, elevation, insertion_order);
+          flow_direction.operator()(i, j) = z; //RasterCell is for the priority queue, not like this...
       }
   }
+
+    /* // This will print whether included driver from input_data supports Create() or CreateCopy()
+     * // Spoiler alert: it's CreateCopy()
+    const char *pszFormat = "SRTMHGT";
+    GDALDriver *poDriver;
+    char **papszMetadata;
+    poDriver = GetGDALDriverManager()->GetDriverByName(pszFormat);
+    if( poDriver == NULL )
+        exit( 1 );
+    papszMetadata = poDriver->GetMetadata();
+    if( CSLFetchBoolean( papszMetadata, GDAL_DCAP_CREATE, FALSE ) )
+        printf( "Driver %s supports Create() method.\n", pszFormat );
+    if( CSLFetchBoolean( papszMetadata, GDAL_DCAP_CREATECOPY, FALSE ) )
+        printf( "Driver %s supports CreateCopy() method.\n", pszFormat );
+    */
 
   // This loop reads all input_raster values
   /*
@@ -155,7 +174,7 @@ int main(int argc, const char * argv[]) {
     }
      */
    // Here I successfully accessed a value at (x, y) to read the z value from the created flow_direction raster
-    std::cout << "this is the value from flow_direction raster at (2, 2): " << flow_direction(2,2) << std::endl;
+    std::cout << "this is the value from flow_direction raster at (2, 3000): " << flow_direction(2,3000) << std::endl;
 
 
   // Here I will attempt to access the individual columns or rows with indexing

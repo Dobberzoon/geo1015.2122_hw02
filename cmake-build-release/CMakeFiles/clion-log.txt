@@ -1,4 +1,0 @@
-/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" /Users/danieldobson/Library/CloudStorage/OneDrive-Personal/GEOMATICS/GEO1015-Y2/geo1015.2021/hw/02
--- Configuring done
--- Generating done
--- Build files have been written to: /Users/danieldobson/Library/CloudStorage/OneDrive-Personal/GEOMATICS/GEO1015-Y2/geo1015.2021/hw/02/cmake-build-release
