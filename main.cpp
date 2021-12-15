@@ -61,6 +61,7 @@ struct RasterCell {
   // Define the order of the linked cells (to be used in a priority_queue)
   bool operator<(const RasterCell &other) const {
     // to do with statements like if (this->elevation > other.elevation) return false/true;
+    return this->elevation > other.elevation;
   }
 };
 
@@ -129,6 +130,7 @@ int main(int argc, const char * argv[]) {
   // Create the output dataset for writing
 
 
+
   // With this for loop I access the flow_direction raster to write the z values at (x, y)
   for (int i=0; i<flow_direction.max_x; i++) {
       for (int j=0; j<flow_direction.max_y; j++) {
@@ -141,6 +143,26 @@ int main(int argc, const char * argv[]) {
       }
   }
 
+    // For starting with the top row:
+    for (int i=0; i<input_raster.max_x; i++) {
+        // this line prints the z values to check if correct values are read
+        //std::cout << "this is z for top row input_raster: " << input_raster(i, 0) << std::endl;
+
+        int x, y; // row and column of the cell
+        int elevation;
+        int insertion_order;
+        x = i; y = 0;
+        elevation = input_raster(x, y);
+        insertion_order = i;
+        RasterCell n(x, y, elevation, insertion_order);
+        cells_to_process_flow.push(n);
+
+    }
+
+    while (cells_to_process_flow.empty() == false) {
+        std::cout << cells_to_process_flow.top() << " \n";
+        cells_to_process_flow.pop();
+    }
     /* // This will print whether included driver from input_data supports Create() or CreateCopy()
      * // Spoiler alert: it's CreateCopy()
     const char *pszFormat = "SRTMHGT";
