@@ -65,7 +65,7 @@ struct RasterCell {
   // Define the order of the linked cells (to be used in a priority_queue)
   bool operator<(const RasterCell &other) const {
     // to do with statements like if (this->elevation > other.elevation) return false/true;
-    return (this->elevation > other.elevation);
+    return ((this->elevation > other.elevation) || (this->elevation == other.elevation) && (this->insertion_order > other.insertion_order));
   }
 };
 
@@ -206,8 +206,16 @@ int main(int argc, const char * argv[]) {
     std::ofstream borderlog;
     borderlog.open ("borderlog.txt");
 
-    while (cells_to_process_flow.empty() == false) {
-        borderlog << cells_to_process_flow.top() << " \n";
+    while (!cells_to_process_flow.empty()) {
+        //borderlog << cells_to_process_flow.top() << " \n";
+
+        int x, y, elevation, insertion_order;
+        x = cells_to_process_flow.top().x;
+        y = cells_to_process_flow.top().y;
+        elevation = cells_to_process_flow.top().elevation;
+        insertion_order = cells_to_process_flow.top().insertion_order;
+
+        
         cells_to_process_flow.pop();
     }
     borderlog.close();
