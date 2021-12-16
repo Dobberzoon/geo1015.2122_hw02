@@ -3,6 +3,10 @@
 
 #include "gdal_priv.h"
 #include "cpl_conv.h"
+
+// My own temporary libraries
+#include <time.h>
+#include <fstream>
 #include <matplot/matplot.h>
 
 // Storage and access of a raster of a given size
@@ -61,7 +65,7 @@ struct RasterCell {
   // Define the order of the linked cells (to be used in a priority_queue)
   bool operator<(const RasterCell &other) const {
     // to do with statements like if (this->elevation > other.elevation) return false/true;
-    return this->elevation > other.elevation;
+    return (this->elevation > other.elevation);
   }
 };
 
@@ -72,6 +76,8 @@ std::ostream& operator<<(std::ostream& os, const RasterCell& c) {
 }
 
 int main(int argc, const char * argv[]) {
+
+    clock_t start = clock();
   
   // Open dataset
   GDALDataset  *input_dataset;
@@ -143,26 +149,68 @@ int main(int argc, const char * argv[]) {
       }
   }
 
-    // For starting with the top row:
-    for (int i=0; i<input_raster.max_x; i++) {
-        // this line prints the z values to check if correct values are read
-        //std::cout << "this is z for top row input_raster: " << input_raster(i, 0) << std::endl;
+    // Extract initial potential outlets from borders of grid
 
-        int x, y; // row and column of the cell
-        int elevation;
-        int insertion_order;
-        x = i; y = 0;
-        elevation = input_raster(x, y);
-        insertion_order = i;
-        RasterCell n(x, y, elevation, insertion_order);
-        cells_to_process_flow.push(n);
+    int countIO = 0;
+    for (int i=0, j=0; i<(input_raster.max_y - 1) && j<(input_raster.max_x - 1); i++, j++) {
+        int xTop, yTop; // row and column of the cell
+        int xBottom, yBottom; // row and column of the cell
+        int xLeft, yLeft; // row and column of the cell
+        int xRight, yRight; // row and column of the cell
+
+        int elevationTop;
+        int elevationBottom;
+        int elevationLeft;
+        int elevationRight;
+
+        int insertion_orderTop;
+        int insertion_orderBottom;
+        int insertion_orderLeft;
+        int insertion_orderRight;
+
+        xTop = i; yTop = 0;
+        xBottom = i; yBottom = (input_raster.max_y - 1);
+        xLeft = 0; yLeft = j;
+        xRight = (input_raster.max_x - 1); yRight = j;
+
+        elevationTop = input_raster(xTop, yTop);
+        elevationBottom = input_raster(xBottom, yBottom);
+        elevationLeft = input_raster(xLeft, yLeft);
+        elevationRight = input_raster(xRight, yRight);
+
+        insertion_orderTop = countIO;
+        countIO++;
+        insertion_orderBottom = countIO;
+        countIO++;
+        insertion_orderLeft = countIO;
+        countIO++;
+        insertion_orderRight = countIO;
+        countIO++;
+
+
+        RasterCell nTop(xTop, yTop, elevationTop, insertion_orderTop);
+        RasterCell nBottom(xBottom, yBottom, elevationBottom, insertion_orderBottom);
+        RasterCell nLeft(xLeft, yLeft, elevationLeft, insertion_orderLeft);
+        RasterCell nRight(xRight, yRight, elevationRight, insertion_orderRight);
+
+        cells_to_process_flow.push(nTop);
+        cells_to_process_flow.push(nBottom);
+        cells_to_process_flow.push(nLeft);
+        cells_to_process_flow.push(nRight);
+
 
     }
+    std::cout << "the count of the border extraction loop, versus the size of the priority queue: " << countIO <<
+    ", " << cells_to_process_flow.size() << std::endl;
+
+    std::ofstream borderlog;
+    borderlog.open ("borderlog.txt");
 
     while (cells_to_process_flow.empty() == false) {
-        std::cout << cells_to_process_flow.top() << " \n";
+        borderlog << cells_to_process_flow.top() << " \n";
         cells_to_process_flow.pop();
     }
+    borderlog.close();
     /* // This will print whether included driver from input_data supports Create() or CreateCopy()
      * // Spoiler alert: it's CreateCopy()
     const char *pszFormat = "SRTMHGT";
@@ -233,6 +281,10 @@ int main(int argc, const char * argv[]) {
   
   // Close input dataset
   GDALClose(input_dataset);
+
+  clock_t stop = clock();
+  double elapsed = (double) (stop - start) / CLOCKS_PER_SEC;
+  printf("\nTime elapsed: %.5f\n", elapsed);
   
   return 0;
 }
