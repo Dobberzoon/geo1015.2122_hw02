@@ -89,7 +89,7 @@ int main(int argc, const char * argv[]) {
   // Open dataset
   GDALDataset  *input_dataset;
   GDALAllRegister();
-  input_dataset = (GDALDataset *)GDALOpen("/Users/danieldobson/Library/CloudStorage/OneDrive-Personal/GEOMATICS/GEO1015-Y2/geo1015.2021/hw/02/data/N46E008.hgt", GA_ReadOnly); // a nice tile I used for testing
+  input_dataset = (GDALDataset *)GDALOpen("/Users/danieldobson/Library/CloudStorage/OneDrive-Personal/GEOMATICS/GEO1015-Y2/geo1015.2021/hw/02/data/N56E105.hgt", GA_ReadOnly); // a nice tile I used for testing
   if (input_dataset == NULL) {
     std::cerr << "Couldn't open file" << std::endl;
     return 1;
@@ -370,7 +370,7 @@ int main(int argc, const char * argv[]) {
 
     GDALDataset  *output_flow_direction;
     GDALDriver *driverGeotiff;
-    const char *const flow_dir_filename = "output_flow_direction_katrin_flat.tif";
+    const char *const flow_dir_filename = "output_flow_direction.tif";
 
     driverGeotiff = GetGDALDriverManager()->GetDriverByName("GTiff");
     output_flow_direction = driverGeotiff->Create(flow_dir_filename,nXSize,nYSize,1,GDT_Int32,NULL);
@@ -415,7 +415,7 @@ int main(int argc, const char * argv[]) {
     - The SRTM data is lat-long, but that doesn’t matter for LCP.*/
 
   Raster flow_accumulation(input_raster.max_x, input_raster.max_y);
-  flow_accumulation.fill();
+  flow_accumulation.fillOnes();
   
   // Write flow accumulation
   // to do
@@ -528,7 +528,7 @@ int main(int argc, const char * argv[]) {
     std::cout << "flow accumulation stack after: " << stack.size() << std::endl;
 
     GDALDataset  *output_flow_accumulation;
-    const char *const flow_acc_filename = "output_flow_accumulation_katrin_flat.tif";
+    const char *const flow_acc_filename = "output_flow_accumulation.tif";
 
     output_flow_accumulation = driverGeotiff->Create(flow_acc_filename,nXSize,nYSize,1,GDT_Int32,NULL);
     output_flow_accumulation->SetGeoTransform(geo_transform);
