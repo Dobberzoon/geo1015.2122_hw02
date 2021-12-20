@@ -1,6 +1,9 @@
 # geo1015.2122_hw02
 The hw02 run-off modelling assignment for the course Digital Terrain Modelling.
 
+Author: 		Daniël Dobson
+Student number: 5152739
+
 ## How to build from command line
 
 Below is an example of how to build the project on Unix based machine, however to clone you need to ask permission first to access this private repo @Dobberzoon on github.com.
