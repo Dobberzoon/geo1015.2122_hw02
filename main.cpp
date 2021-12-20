@@ -7,6 +7,7 @@
     #include "gdal_priv.h"
     #include "cpl_conv.h"
 
+	// Runoff modelling based on LCP approach.
 
     // Storage and access of a raster of a given size
     struct Raster {
@@ -137,7 +138,7 @@
     std::priority_queue<RasterCell, std::deque<RasterCell>> cells_to_process_flow;
     Raster flats(input_raster.max_x, input_raster.max_y);
     flats.fill();
-    // Stack for accumulation according to ICP
+    // Stack for accumulation according to LCP algorithm
     std::stack<RasterCell, std::deque<RasterCell>> cells_to_process_accumulation;
 
     // Direction value mapping
@@ -237,7 +238,7 @@
         }
     }
 
-    // Search operation from priority queue ICP algorithm
+    // Search operation from priority queue LCP algorithm
     while (!cells_to_process_flow.empty()) {
 
         int x, y, elevation, insertion_order;

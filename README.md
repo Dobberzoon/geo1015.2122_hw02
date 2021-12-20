@@ -1,5 +1,5 @@
 # geo1015.2122_hw02
-The hw02 run-off modelling assignment for the course Digital Terrain Modelling.
+The hw02 run-off modelling assignment for the course Digital Terrain Modelling. Based on Least Cost Path algorithm.
 
 Author: 		Daniël Dobson
 Student number: 5152739
