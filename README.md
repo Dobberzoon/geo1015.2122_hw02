@@ -44,6 +44,9 @@ There is an optional funtion to mark flat (wet) areas with their corresponding i
 
 Use QGIS (or similar) to find the integer elevation value(s) of large flat area(s), eg with Value Tool in QGIS. You can keep adding values or type ```0``` to cancel console input.
 
+## Add own path for input dataset
+Change path for input_data location at line 87 to link your local path accordingly.
+
 ## Provided dataset
 
 The provided input data is an SRTM file from the NASA database of Lena river near Ust-Kut, Russia. I was Googling "most beatiful rivers", and found Lena river in the top 10 results. I went upsream to look for the mountains of its origin and chose a hilly area. My girlfriend's name is Lena, so I don't forget her in the many hours spent on this assignment ^-^.
