@@ -42,6 +42,8 @@ Runtime on Apple Mac Air M1: 3.90918 seconds
 
 There is an optional funtion to mark flat (wet) areas with their corresponding integer elevation value. Reply y/n to engage in flat area acquisition. It is reasonably effective for larger flat areas (eg lakes, sea, ocean etc.), though not advised for areas with smaller rivers. Though provided data set does not do the function justice, please add your own alternative dataset with large flat area.
 
+Use QGIS (or similar) to find the integer elevation value(s) of large flat area(s), eg with Value Tool in QGIS. You can keep adding values or type ```0``` to cancel console input.
+
 ## Provided dataset
 
 The provided input data is an SRTM file from the NASA database of Lena river near Ust-Kut, Russia. I was Googling "most beatiful rivers", and found Lena river in the top 10 results. I went upsream to look for the mountains of its origin and chose a hilly area. My girlfriend's name is Lena, so I don't forget her in the many hours spent on this assignment ^-^.
