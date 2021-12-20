@@ -44,4 +44,4 @@ There is an optional funtion to mark flat (wet) areas with their corresponding i
 
 ## Provided dataset
 
-The provided input data is an SRTM file from the NASA database of Lena river near Ust-Kut, Russia. I was Googling "most beatiful rivers", and found Lena river in the top 10 results. I went upsream to look for the mountains of its origin and chose a hilly area. My girlfriend's name is Lena, so I don't forget her in the many hours spent on this assignment \^-^/.
+The provided input data is an SRTM file from the NASA database of Lena river near Ust-Kut, Russia. I was Googling "most beatiful rivers", and found Lena river in the top 10 results. I went upsream to look for the mountains of its origin and chose a hilly area. My girlfriend's name is Lena, so I don't forget her in the many hours spent on this assignment ^-^.
