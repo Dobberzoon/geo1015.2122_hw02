@@ -40,7 +40,7 @@ Runtime on Apple Mac Air M1: 3.90918 seconds
 
 ## How to use
 
-There is an optional funtion to mark flat (wet) areas with their corresponding integer elevation value. Reply y/n to engage in flat area acquisition. It is reasonably effective for larger flat areas (eg lakes, sea, ocean etc.), though not advised for areas with smaller rivers. Though provided data set does not do the function justice, please your own alternative dataset with large flat area.
+There is an optional funtion to mark flat (wet) areas with their corresponding integer elevation value. Reply y/n to engage in flat area acquisition. It is reasonably effective for larger flat areas (eg lakes, sea, ocean etc.), though not advised for areas with smaller rivers. Though provided data set does not do the function justice, please add your own alternative dataset with large flat area.
 
 ## Provided dataset
 
