@@ -1,8 +1,16 @@
 # geo1015.2122_hw02
-The hw02 run-off modelling assignment for the course Digital Terrain Modelling. Based on Least Cost Path algorithm.
 
 Author: 		Daniël Dobson
 Student number: 5152739
+
+The hw02 run-off modelling assignment for the course Digital Terrain Modelling. The aim of this assignment is to implement basic runoff modelling based on the LCP algorithm, using a single flow direction (D8) on a grid DTM. In short, this will involve two steps:
+
+1. computing the flow direction;
+2. using the flow direction to compute the accumulated flow.
+
+The result is a drainage network, that is visible with software (eg QGIS/ArcGIS).
+
+
 
 ## How to build from command line
 
