@@ -16,6 +16,12 @@ The result is a drainage network, that is visible with software (eg QGIS/ArcGIS)
 
 Below is an example of how to build the project on Unix based machine, however to clone you need to ask permission first to access this private repo @Dobberzoon on github.com.
 
+Install the necessary packages, might take a while.
+
+```
+brew install cmake gdal
+```
+
 Make sure you edit the CMakelists.txt, such that it finds the libraries from their relative paths accordingly.
 
 ```
