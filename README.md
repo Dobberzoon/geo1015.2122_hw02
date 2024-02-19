@@ -19,28 +19,28 @@ Below is an example of how to build the project on Unix based machine, however t
 Make sure you edit the CMakelists.txt, such that it finds the libraries from their relative paths accordingly.
 
 ```
-$ git clone https://github.com/Dobberzoon/geo1015.2122_hw02.git
-$ cd geo1015.2122_hw02
-$ mkdir build
-$ cd build
-$ cmake ..
-$ make
+git clone https://github.com/Dobberzoon/geo1015.2122_hw02.git
+cd geo1015.2122_hw02
+mkdir build
+cd build
+cmake ..
+make
 ```
 
 Or with zip file, extract and:
 
 ```
-$ cd geo1015.2122_hw02
-$ mkdir build
-$ cd build
-$ cmake ..
-$ make
+cd geo1015.2122_hw02
+mkdir build
+cd build
+cmake ..
+make
 ```
 
 Now, to start the program from the build folder in cmd line:
 
 ```
-$ ./runoff
+./runoff
 ```
 
 Runtime on Apple Mac Air M1:  17.97265 seconds
